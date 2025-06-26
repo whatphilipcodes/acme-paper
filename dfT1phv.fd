@@ -60,15 +60,15 @@
    <-> s * [.9] phvro8t
 }{}
 
-\DeclareFontShape{T1}{phv}{mc}{n}{
+\DeclareFontShape{T1}{phv}{c}{n}{
    <-> s * [.9] phvr8tn
 }{}
 
-\DeclareFontShape{T1}{phv}{mc}{sc}{
+\DeclareFontShape{T1}{phv}{c}{sc}{
    <-> s * [.9] phvrc8tn
 }{}
 
-\DeclareFontShape{T1}{phv}{mc}{sl}{
+\DeclareFontShape{T1}{phv}{c}{sl}{
    <-> s * [.9] phvro8tn
 }{}
 
@@ -80,6 +80,6 @@
 \DeclareFontShape{T1}{phv}{bc}{it}{<->ssub * phv/bc/sl}{}
 \DeclareFontShape{T1}{phv}{l}{it}{<->ssub * phv/l/sl}{}
 \DeclareFontShape{T1}{phv}{m}{it}{<->ssub * phv/m/sl}{}
-\DeclareFontShape{T1}{phv}{mc}{it}{<->ssub * phv/mc/sl}{}
+\DeclareFontShape{T1}{phv}{c}{it}{<->ssub * phv/c/sl}{}
 
 \endinput

@@ -56,8 +56,8 @@
 
 %DF add replacements for missing 'narrow' Times fonts
 %
-\DeclareFontShape{T1}{ptm}{mc}{n}{<->ssub * ptm/m/n}{}
-\DeclareFontShape{T1}{ptm}{mc}{sl}{<->ssub * ptm/m/sl}{}
-\DeclareFontShape{T1}{ptm}{mc}{it}{<->ssub * ptm/mc/sl}{}
+\DeclareFontShape{T1}{ptm}{c}{n}{<->ssub * ptm/m/n}{}
+\DeclareFontShape{T1}{ptm}{c}{sl}{<->ssub * ptm/m/sl}{}
+\DeclareFontShape{T1}{ptm}{c}{it}{<->ssub * ptm/c/sl}{}
 
 \endinput
