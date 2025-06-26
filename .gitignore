@@ -1,0 +1,43 @@
+# LaTeX auxiliary and temporary files
+*.aux
+*.bbl
+*.blg
+*.log
+*.out
+*.toc
+*.lof
+*.lot
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.nav
+*.snm
+*.vrb
+*.brf
+*.lbl
+
+# Editor backup files
+*~
+*.bak
+
+# MacOS-specific files
+.DS_Store
+._*
+
+# PDF output files
+*.pdf
+
+# Temporary files created by LiveTeX
+*.tmp
+*.dvi
+*.ps
+*.xdv
+
+# Generated bibliography files
+*.bbl
+*.bcf
+*.run.xml
+
+# Other temporary files
+*.gz
+*.pyg
