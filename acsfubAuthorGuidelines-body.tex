@@ -25,13 +25,13 @@
     \includegraphics[width=\linewidth]{img/teaser}
     \centering
     \caption{Teaser Image. Explain the image.}
-\label{fig:teaser}
+    \label{fig:teaser}
 }
 
 \maketitle
 %-------------------------------------------------------------------------
 \begin{abstract}
- The abstract should be between 100-150 words and should be a succinct and stand alone description. An abstract is neither a summary nor an outline of the paper. For example, you can follow these four sentences \cite{johnson_1993_htg}: State the problem, Why is it a problem and why is it interesting? Your solution and achievements. What follows from your solution? 
+    The abstract should be between 100-150 words and should be a succinct and stand alone description. An abstract is neither a summary nor an outline of the paper. For example, you can follow these four sentences \cite{johnson_1993_htg}: State the problem, Why is it a problem and why is it interesting? Your solution and achievements. What follows from your solution?
 \end{abstract}
 
 %-------------------------------------------------------------------------
@@ -76,10 +76,10 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris at congue arcu. 
 
 The following is an example for a bullet points list. The contributions of this paper are
 
-\begin{itemize} 
-\item my greate archivement number one,
-\item a second awsome insight,
-\item and last but not least the third contribution.
+\begin{itemize}
+    \item my greate archivement number one,
+    \item a second awsome insight,
+    \item and last but not least the third contribution.
 \end{itemize}
 
 
@@ -92,12 +92,12 @@ All graphics should be centered.
 %%% Figure 1
 %%%
 \begin{figure}[htb]
-  \centering
-  % the following command controls the width of the embedded PS file
-  % (relative to the width of the current column)
-  \includegraphics[width=.8\columnwidth]{img/cat_upsidedown}
-  \caption{\label{fig:firstExample}
-           Here is a sample figure. All figures must have sensible captions and must be referenced in the text.}
+    \centering
+    % the following command controls the width of the embedded PS file
+    % (relative to the width of the current column)
+    \includegraphics[width=.8\columnwidth]{img/cat_upsidedown}
+    \caption{\label{fig:firstExample}
+        Here is a sample figure. All figures must have sensible captions and must be referenced in the text.}
 \end{figure}
 
 If your paper includes images, it is important that they are of
@@ -111,13 +111,13 @@ then multiply those two values by 12. The resulting values are the
 optimum $x$ and $y$ resolution, in pixels, of the image. Image quality
 will suffer if these guidelines are not followed.
 
-Example 1: 
+Example 1:
 %
 An image measures 50\,mm by 75\,mm when placed in a document. This
 image should have a resolution of no less than 600 pixels by 900
 pixels in order to be reproduced faithfully.
 
-This is an examplary reference to Figure~\ref{fig:ex3}, which shows the incredible test image from the Eurogaphics conference. 
+This is an examplary reference to Figure~\ref{fig:ex3}, which shows the incredible test image from the Eurogaphics conference.
 
 
 \begin{figure*}[]
@@ -130,22 +130,22 @@ This is an examplary reference to Figure~\ref{fig:ex3}, which shows the incredib
 \subsection{Tables}
 
 A simple table might look like the following. However there are several ways to create and layout tables - it is up to you to style a table up to your liking. This is a reference to Table \ref{tab:tableExample}.
- 
+
 \begin{table}[h!]
-\centering
-\begin{tabular}{|c | c c c|} 
- \hline
- Col1 & Col2 & Col2 & Col3 \\ [0.5ex] 
- \hline\hline
- 1 & 6 & 87837 & 787 \\ 
- 2 & 7 & 78 & 5415 \\
- 3 & 545 & 778 & 7507 \\
- 4 & 545 & 18744 & 7560 \\
- 5 & 88 & 788 & 6344 \\ [1ex] 
- \hline
-\end{tabular}
-\caption{Here is a sample table. All tables must have sensible captions and must be referenced in the text.}
-\label{tab:tableExample}
+    \centering
+    \begin{tabular}{|c | c c c|}
+        \hline
+        Col1 & Col2 & Col2  & Col3 \\ [0.5ex]
+        \hline\hline
+        1    & 6    & 87837 & 787  \\
+        2    & 7    & 78    & 5415 \\
+        3    & 545  & 778   & 7507 \\
+        4    & 545  & 18744 & 7560 \\
+        5    & 88   & 788   & 6344 \\ [1ex]
+        \hline
+    \end{tabular}
+    \caption{Here is a sample table. All tables must have sensible captions and must be referenced in the text.}
+    \label{tab:tableExample}
 \end{table}
 
 
@@ -158,7 +158,7 @@ In \LaTeX~it is fairly easy to add mathematical symbols and formulas. See the fo
 \begin{equation} \label{eq:erl}
     a = bq + r
 \end{equation}
-    
+
 which is true if $a$ and $b$ are integers with $b \neq c$.
 
 \begin{equation}
@@ -179,17 +179,17 @@ References are layouted automatically. Add the needed entry to the bibtex file a
 
 If you don't want to mention the author's name just add the citation to the end of the sentence~\cite{perlin_1985_ais}. You can also cite more than one references at the same time~\cite{gebhardt_2018_ofa, perlin_1985_ais, semmo_2015_iso}.
 
-Sometimes you want to refer to the authors name. With this template you need to write out the names manually. For more than two authors you only use the name of the first author and abbrivate the remaining names with "et al." 
+Sometimes you want to refer to the authors name. With this template you need to write out the names manually. For more than two authors you only use the name of the first author and abbrivate the remaining names with "et al."
 
-An example for more than two authors: 
+An example for more than two authors:
 
 Raul et al.~\cite{raut_2009_isa} thoroughly review the different approaches for segmentation algorithms. Our problem requires the segmentation of color images, summarized by Cheng et al.~\cite{cheng_2001_cis}.
 
-An example for two authors: 
+An example for two authors:
 
 Also aiming for a fragmented aesthetic appeal by transforming original image data "piecewise", Collomosse and Hall~\cite{collomosse_2003_csr} render from salient image features a cubist version of an input. Similarly, Lai and Rosin~\cite{lai_2013_are} loosely aim for a cubist appearance by segmenting an input and by simplifying the segments into constant colors, while maintaining global structures.
 
-An example for one author: 
+An example for one author:
 
 Artistically, we are inspired by the art of Wehrli~\cite{wehrli_2003_tau}, who manually creates image decompositions and rearrangements.
 
