@@ -41,3 +41,8 @@
 # Other temporary files
 *.gz
 *.pyg
+
+
+# Python
+.venv
+src/data
