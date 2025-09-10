@@ -26,6 +26,7 @@
 
 # PDF output files
 *.pdf
+!paper/img/*.pdf
 
 # Temporary files created by LiveTeX
 *.tmp

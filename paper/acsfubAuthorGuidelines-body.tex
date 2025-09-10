@@ -1,4 +1,6 @@
 % !TEX root = acsfubAuthorGuidelines-short.tex
+\usepackage{tikz}
+\usetikzlibrary{positioning}
 
 % ---------------------------------------------------------------------
 % EG author guidelines plus sample file for EG publication using LaTeX2e input
@@ -19,6 +21,12 @@
 % {\parbox{\textwidth}{\centering $^1$Film University Babelsberg KONRAD WOLF, Germany\\} 
 % }
 % }
+\author[A. Nonumous ]
+{\parbox{\textwidth}{\centering A. Nonumous$^{1}$}
+\\
+{\parbox{\textwidth}{\centering $^1$Film University Babelsberg KONRAD WOLF, Germany\\} 
+}
+}
 
 
 % KEYWORDS (NOT PART OF TEMPLATE):
@@ -29,12 +37,38 @@
 %-------------------------------------------------------------------------
 \begin{document}
 
-% \teaser{
-%     \includegraphics[width=\linewidth]{img/teaser}
-%     \centering
-%     \caption{Teaser Image. Explain the image.}
-%     \label{fig:teaser}
-% }
+\teaser{
+    \begin{tikzpicture}[
+            scale=0.9,
+            node distance=1.5cm and 2cm,
+            box/.style={draw, rectangle, align=center, font=\small, inner sep=0.28cm}
+        ]
+        \node[box] (A) {wikimedia/\\wikipedia};
+        \node[box, right=of A] (B) {1M subset};
+
+        \node[box, above right=of B] (C) {all-MiniLM-\\L6-v2};
+        \node[box, right=of B] (D) {all-mpnet-\\base-v2};
+        \node[box, below right=of B] (E) {nomic-embed-\\text-v1.5};
+
+        \node[box, right=of D] (F) {PCA};
+
+        \node[box, above right=of F] (G) {tSNE};
+        \node[box, below right=of F] (H) {UMAP};
+
+        \draw[->] (A) -- (B);
+        \draw[->] (B) |- (C);
+        \draw[->] (B) -- (D);
+        \draw[->] (B) |- (E);
+        \draw[->] (C) -| (F);
+        \draw[->] (D) -- (F);
+        \draw[->] (E) -| (F);
+        \draw[->] (F) -| (G);
+        \draw[->] (F) -| (H);
+    \end{tikzpicture}
+    \centering
+    \caption{Data processing pipeline: from Wikipedia articles through embedding models to dimensionality reduction and visualization.}
+    \label{fig:teaser}
+}
 
 \maketitle
 %-------------------------------------------------------------------------
@@ -45,53 +79,160 @@
 %-------------------------------------------------------------------------
 \section{Introduction}
 
-Dimensionality reduction techniques such as PCA, t-SNE, and UMAP are widely used to visualize high-dimensional data, enabling intuitive exploration of complex datasets \cite{smilkovEmbeddingProjectorInteractive2016}. However, these methods typically require access to the entire dataset in advance, limiting their applicability in dynamic environments where new data is continuously added. This paper addresses part of the challenge of approximating such dimensionality reduction methods for specific data domains using predictive modeling.
 
-We/I (or passive?) propose an approach that learns to predict low-dimensional coordinates for raw token inputs by leveraging semantic embeddings followed by traditional dimensionality reduction. This supervised learning approach reduces computational overhead and supports incremental data addition. As a first step towards training such a model, this paper incorporates the following contributions:
+Dimensionality reduction techniques such as PCA, t-SNE, and UMAP are widely used to visualize high-dimensional data, enabling intuitive exploration of complex data \cite{smilkovEmbeddingProjectorInteractive2016}.
+
+-> Research Question here??
+
+As a first step towards training such a model, this paper incorporates the following contributions:
 
 \begin{itemize}
-    \item A comparison of selected dimensionality reduction techniques commonly used for visualizing text data, along with a brief analysis of their strengths and limitations in generating interpretable 2D embeddings (Section 3.1)
-    \item A reproducible pipeline for constructing datasets that map text tokens to 2D coordinates using semantic embeddings and traditional dimensionality reduction methods (Section 3.2)
-    \item An evaluation of the generated dataset using common dataset quality metrics (Section 3.4)
+    \item A reproducible pipeline for constructing datasets that map text tokens to 2D coordinates using semantic embeddings and dimensionality reduction methods (\ref{sec:pipeline})
+    \item A comparative overview of the embedding and dimensionality reduction algorithms used based on the generated dataset (Section 3.2)
 \end{itemize}
 
 %-------------------------------------------------------------------------
 \section{Related Work}
-To-Do: Related Work
+\label{sec:rel-work}
+
+Quis ullamco nisi proident sit incididunt voluptate ullamco amet nulla cillum sunt consequat voluptate et. Aliqua ad officia nostrud voluptate occaecat consequat mollit. Adipisicing ullamco irure ipsum tempor. Ad cillum magna officia aute sit ullamco minim. Officia aliqua dolore duis amet et magna id qui non anim deserunt sunt sint voluptate. Irure minim sunt ex cillum culpa aliquip fugiat id amet id nulla nostrud.
+
+Deserunt deserunt eiusmod consectetur sint sit. Consectetur consequat nulla cillum et pariatur pariatur sint duis Lorem esse. Sint labore qui dolore ipsum amet id consequat aute enim et pariatur cillum.
+
+Et irure exercitation magna cupidatat nisi est qui eu do tempor. Magna ea qui sunt proident culpa esse veniam laboris. Exercitation ea deserunt incididunt id adipisicing quis aute.
+
+Consequat occaecat aliqua consectetur ut laborum occaecat mollit mollit mollit do. Cillum ut eiusmod eiusmod occaecat aliqua duis in dolore ut officia occaecat. Lorem non esse nulla exercitation occaecat ullamco magna.
 
 %-------------------------------------------------------------------------
-\section{Dataset Generation for Dimensionality Reduction }
-To-Do: Main Section
+\section{Dataset Generation from Dimensionality Reduction }
+\label{sec:main}
 
-%-------------------------------------------------------------------------
-\subsection{Comparison}
-To-Do: Comparison
+lorem ipsum dolor sit amet Veniam nulla mollit esse officia et reprehenderit occaecat proident amet Lorem adipisicing tempor. Non enim ipsum minim aliquip ipsum ipsum occaecat commodo aliqua aute labore non dolore pariatur. Dolor aute amet sunt incididunt magna ipsum non. Amet laboris cillum exercitation et. Occaecat sint amet velit anim veniam ad laboris magna. Pariatur elit magna nisi anim sint cillum sunt ea aute velit nulla eu id. Adipisicing quis eiusmod ea reprehenderit aute adipisicing duis nulla.
+
+Fugiat do labore occaecat excepteur fugiat veniam laborum minim ad. Cupidatat ut consectetur adipisicing duis amet ex aliqua labore sit mollit duis ea excepteur. Exercitation occaecat deserunt deserunt veniam fugiat consectetur in aliquip. Et veniam est laboris eiusmod commodo commodo tempor aute nisi amet aliquip duis dolor ut. Ex anim velit elit qui ut incididunt. Laboris eu magna magna exercitation do officia veniam proident duis est.
+
+In velit dolor adipisicing reprehenderit mollit mollit. Reprehenderit duis elit dolore laborum. Ullamco dolor eiusmod sit minim do sit fugiat est qui eu amet exercitation irure culpa.
+
+Ipsum irure cillum veniam magna ad fugiat ipsum sunt incididunt id laborum. Deserunt anim aliqua voluptate non proident nisi consequat ea eu veniam enim ad. Tempor laborum aute est quis voluptate velit veniam id exercitation ad aute dolor.
+
+Do deserunt laboris commodo anim anim ut elit. Enim aliquip reprehenderit amet eu. Eiusmod mollit cupidatat qui eiusmod sunt id deserunt aute sunt enim. Dolor consequat commodo nisi dolor laboris dolore labore adipisicing nisi est anim qui elit. Nulla in nostrud dolore anim enim commodo ipsum cupidatat non mollit qui.
+
+Aute enim in dolore mollit magna enim sit duis nisi voluptate mollit consectetur eu. Adipisicing Lorem quis laboris proident fugiat. Non adipisicing dolor proident occaecat. Voluptate cupidatat elit ad laborum laborum laborum consequat quis amet. Est aliquip nostrud est labore.
 
 %-------------------------------------------------------------------------
 \subsection{Pipeline}
-To-Do: Pipeline
+\label{sec:pipeline}
 
-% %-------------------------------------------------------------------------
-% DO WE ACTUALLY NEED METHOD section ? If so what was that 
-% \subsection{Method}
-% To-Do: Method
+lorem ipsum dolor sit amet Veniam nulla mollit esse officia et reprehenderit occaecat proident amet Lorem adipisicing tempor. Non enim ipsum minim aliquip ipsum ipsum occaecat commodo aliqua aute labore non dolore pariatur. Dolor aute amet sunt incididunt magna ipsum non. Amet laboris cillum exercitation et. Occaecat sint amet velit anim veniam ad laboris magna. Pariatur elit magna nisi anim sint cillum sunt ea aute velit nulla eu id. Adipisicing quis eiusmod ea reprehenderit aute adipisicing duis nulla.
+
+Fugiat do labore occaecat excepteur fugiat veniam laborum minim ad. Cupidatat ut consectetur adipisicing duis amet ex aliqua labore sit mollit duis ea excepteur. Exercitation occaecat deserunt deserunt veniam fugiat consectetur in aliquip. Et veniam est laboris eiusmod commodo commodo tempor aute nisi amet aliquip duis dolor ut. Ex anim velit elit qui ut incididunt. Laboris eu magna magna exercitation do officia veniam proident duis est.
+
+In velit dolor adipisicing reprehenderit mollit mollit. Reprehenderit duis elit dolore laborum. Ullamco dolor eiusmod sit minim do sit fugiat est qui eu amet exercitation irure culpa.
+
+Ipsum irure cillum veniam magna ad fugiat ipsum sunt incididunt id laborum. Deserunt anim aliqua voluptate non proident nisi consequat ea eu veniam enim ad. Tempor laborum aute est quis voluptate velit veniam id exercitation ad aute dolor.
+
+Do deserunt laboris commodo anim anim ut elit. Enim aliquip reprehenderit amet eu. Eiusmod mollit cupidatat qui eiusmod sunt id deserunt aute sunt enim. Dolor consequat commodo nisi dolor laboris dolore labore adipisicing nisi est anim qui elit. Nulla in nostrud dolore anim enim commodo ipsum cupidatat non mollit qui.
+
+Aute enim in dolore mollit magna enim sit duis nisi voluptate mollit consectetur eu. Adipisicing Lorem quis laboris proident fugiat. Non adipisicing dolor proident occaecat. Voluptate cupidatat elit ad laborum laborum laborum consequat quis amet. Est aliquip nostrud est labore.
+
+%-------------------------------------------------------------------------
+\subsection{Comparison}
+\label{sec:comparison}
+
+lorem ipsum dolor sit amet Veniam nulla mollit esse officia et reprehenderit occaecat proident amet Lorem adipisicing tempor. Non enim ipsum minim aliquip ipsum ipsum occaecat commodo aliqua aute labore non dolore pariatur. Dolor aute amet sunt incididunt magna ipsum non. Amet laboris cillum exercitation et. Occaecat sint amet velit anim veniam ad laboris magna. Pariatur elit magna nisi anim sint cillum sunt ea aute velit nulla eu id. Adipisicing quis eiusmod ea reprehenderit aute adipisicing duis nulla.
+
+Fugiat do labore occaecat excepteur fugiat veniam laborum minim ad. Cupidatat ut consectetur adipisicing duis amet ex aliqua labore sit mollit duis ea excepteur. Exercitation occaecat deserunt deserunt veniam fugiat consectetur in aliquip. Et veniam est laboris eiusmod commodo commodo tempor aute nisi amet aliquip duis dolor ut. Ex anim velit elit qui ut incididunt. Laboris eu magna magna exercitation do officia veniam proident duis est.
+
+In velit dolor adipisicing reprehenderit mollit mollit. Reprehenderit duis elit dolore laborum. Ullamco dolor eiusmod sit minim do sit fugiat est qui eu amet exercitation irure culpa.
+
+Ipsum irure cillum veniam magna ad fugiat ipsum sunt incididunt id laborum. Deserunt anim aliqua voluptate non proident nisi consequat ea eu veniam enim ad. Tempor laborum aute est quis voluptate velit veniam id exercitation ad aute dolor.
+
+Do deserunt laboris commodo anim anim ut elit. Enim aliquip reprehenderit amet eu. Eiusmod mollit cupidatat qui eiusmod sunt id deserunt aute sunt enim. Dolor consequat commodo nisi dolor laboris dolore labore adipisicing nisi est anim qui elit. Nulla in nostrud dolore anim enim commodo ipsum cupidatat non mollit qui.
+
+Aute enim in dolore mollit magna enim sit duis nisi voluptate mollit consectetur eu. Adipisicing Lorem quis laboris proident fugiat. Non adipisicing dolor proident occaecat. Voluptate cupidatat elit ad laborum laborum laborum consequat quis amet. Est aliquip nostrud est labore.
+
+\begin{figure*}[htb]
+    \centering
+    \includegraphics[width=.9\linewidth]{img/all-mpnet-base-v2_umap_100000_20250910T143924}
+    \caption{\label{fig:test}
+        This is just a test. Brace yourselves.}
+\end{figure*}
+
+lorem ipsum dolor sit amet Veniam nulla mollit esse officia et reprehenderit occaecat proident amet Lorem adipisicing tempor. Non enim ipsum minim aliquip ipsum ipsum occaecat commodo aliqua aute labore non dolore pariatur. Dolor aute amet sunt incididunt magna ipsum non. Amet laboris cillum exercitation et. Occaecat sint amet velit anim veniam ad laboris magna. Pariatur elit magna nisi anim sint cillum sunt ea aute velit nulla eu id. Adipisicing quis eiusmod ea reprehenderit aute adipisicing duis nulla.
+
+Fugiat do labore occaecat excepteur fugiat veniam laborum minim ad. Cupidatat ut consectetur adipisicing duis amet ex aliqua labore sit mollit duis ea excepteur. Exercitation occaecat deserunt deserunt veniam fugiat consectetur in aliquip. Et veniam est laboris eiusmod commodo commodo tempor aute nisi amet aliquip duis dolor ut. Ex anim velit elit qui ut incididunt. Laboris eu magna magna exercitation do officia veniam proident duis est.
+
+In velit dolor adipisicing reprehenderit mollit mollit. Reprehenderit duis elit dolore laborum. Ullamco dolor eiusmod sit minim do sit fugiat est qui eu amet exercitation irure culpa.
+
+Ipsum irure cillum veniam magna ad fugiat ipsum sunt incididunt id laborum. Deserunt anim aliqua voluptate non proident nisi consequat ea eu veniam enim ad. Tempor laborum aute est quis voluptate velit veniam id exercitation ad aute dolor.
+
+Do deserunt laboris commodo anim anim ut elit. Enim aliquip reprehenderit amet eu. Eiusmod mollit cupidatat qui eiusmod sunt id deserunt aute sunt enim. Dolor consequat commodo nisi dolor laboris dolore labore adipisicing nisi est anim qui elit. Nulla in nostrud dolore anim enim commodo ipsum cupidatat non mollit qui.
+
+Aute enim in dolore mollit magna enim sit duis nisi voluptate mollit consectetur eu. Adipisicing Lorem quis laboris proident fugiat. Non adipisicing dolor proident occaecat. Voluptate cupidatat elit ad laborum laborum laborum consequat quis amet. Est aliquip nostrud est labore.
 
 %-------------------------------------------------------------------------
 \subsection{Results}
-To-Do: Results
+\label{sec:results}
+
+lorem ipsum dolor sit amet Veniam nulla mollit esse officia et reprehenderit occaecat proident amet Lorem adipisicing tempor. Non enim ipsum minim aliquip ipsum ipsum occaecat commodo aliqua aute labore non dolore pariatur. Dolor aute amet sunt incididunt magna ipsum non. Amet laboris cillum exercitation et. Occaecat sint amet velit anim veniam ad laboris magna. Pariatur elit magna nisi anim sint cillum sunt ea aute velit nulla eu id. Adipisicing quis eiusmod ea reprehenderit aute adipisicing duis nulla.
+
+Fugiat do labore occaecat excepteur fugiat veniam laborum minim ad. Cupidatat ut consectetur adipisicing duis amet ex aliqua labore sit mollit duis ea excepteur. Exercitation occaecat deserunt deserunt veniam fugiat consectetur in aliquip. Et veniam est laboris eiusmod commodo commodo tempor aute nisi amet aliquip duis dolor ut. Ex anim velit elit qui ut incididunt. Laboris eu magna magna exercitation do officia veniam proident duis est.
+
+In velit dolor adipisicing reprehenderit mollit mollit. Reprehenderit duis elit dolore laborum. Ullamco dolor eiusmod sit minim do sit fugiat est qui eu amet exercitation irure culpa.
+
+Ipsum irure cillum veniam magna ad fugiat ipsum sunt incididunt id laborum. Deserunt anim aliqua voluptate non proident nisi consequat ea eu veniam enim ad. Tempor laborum aute est quis voluptate velit veniam id exercitation ad aute dolor.
+
+Do deserunt laboris commodo anim anim ut elit. Enim aliquip reprehenderit amet eu. Eiusmod mollit cupidatat qui eiusmod sunt id deserunt aute sunt enim. Dolor consequat commodo nisi dolor laboris dolore labore adipisicing nisi est anim qui elit. Nulla in nostrud dolore anim enim commodo ipsum cupidatat non mollit qui.
+
+Aute enim in dolore mollit magna enim sit duis nisi voluptate mollit consectetur eu. Adipisicing Lorem quis laboris proident fugiat. Non adipisicing dolor proident occaecat. Voluptate cupidatat elit ad laborum laborum laborum consequat quis amet. Est aliquip nostrud est labore.
 
 %-------------------------------------------------------------------------
 \subsection{Evaluation}
-To-Do: Evaluation
+\label{sec:eval}
+
+lorem ipsum dolor sit amet Veniam nulla mollit esse officia et reprehenderit occaecat proident amet Lorem adipisicing tempor. Non enim ipsum minim aliquip ipsum ipsum occaecat commodo aliqua aute labore non dolore pariatur. Dolor aute amet sunt incididunt magna ipsum non. Amet laboris cillum exercitation et. Occaecat sint amet velit anim veniam ad laboris magna. Pariatur elit magna nisi anim sint cillum sunt ea aute velit nulla eu id. Adipisicing quis eiusmod ea reprehenderit aute adipisicing duis nulla.
+
+Fugiat do labore occaecat excepteur fugiat veniam laborum minim ad. Cupidatat ut consectetur adipisicing duis amet ex aliqua labore sit mollit duis ea excepteur. Exercitation occaecat deserunt deserunt veniam fugiat consectetur in aliquip. Et veniam est laboris eiusmod commodo commodo tempor aute nisi amet aliquip duis dolor ut. Ex anim velit elit qui ut incididunt. Laboris eu magna magna exercitation do officia veniam proident duis est.
+
+In velit dolor adipisicing reprehenderit mollit mollit. Reprehenderit duis elit dolore laborum. Ullamco dolor eiusmod sit minim do sit fugiat est qui eu amet exercitation irure culpa.
+
+Ipsum irure cillum veniam magna ad fugiat ipsum sunt incididunt id laborum. Deserunt anim aliqua voluptate non proident nisi consequat ea eu veniam enim ad. Tempor laborum aute est quis voluptate velit veniam id exercitation ad aute dolor.
+
+Do deserunt laboris commodo anim anim ut elit. Enim aliquip reprehenderit amet eu. Eiusmod mollit cupidatat qui eiusmod sunt id deserunt aute sunt enim. Dolor consequat commodo nisi dolor laboris dolore labore adipisicing nisi est anim qui elit. Nulla in nostrud dolore anim enim commodo ipsum cupidatat non mollit qui.
+
+Aute enim in dolore mollit magna enim sit duis nisi voluptate mollit consectetur eu. Adipisicing Lorem quis laboris proident fugiat. Non adipisicing dolor proident occaecat. Voluptate cupidatat elit ad laborum laborum laborum consequat quis amet. Est aliquip nostrud est labore.
 
 %-------------------------------------------------------------------------
 \subsection{Discussion}
-To-Do: Discussion
+\label{sec:discussion}
+
+lorem ipsum dolor sit amet Veniam nulla mollit esse officia et reprehenderit occaecat proident amet Lorem adipisicing tempor. Non enim ipsum minim aliquip ipsum ipsum occaecat commodo aliqua aute labore non dolore pariatur. Dolor aute amet sunt incididunt magna ipsum non. Amet laboris cillum exercitation et. Occaecat sint amet velit anim veniam ad laboris magna. Pariatur elit magna nisi anim sint cillum sunt ea aute velit nulla eu id. Adipisicing quis eiusmod ea reprehenderit aute adipisicing duis nulla.
+
+Fugiat do labore occaecat excepteur fugiat veniam laborum minim ad. Cupidatat ut consectetur adipisicing duis amet ex aliqua labore sit mollit duis ea excepteur. Exercitation occaecat deserunt deserunt veniam fugiat consectetur in aliquip. Et veniam est laboris eiusmod commodo commodo tempor aute nisi amet aliquip duis dolor ut. Ex anim velit elit qui ut incididunt. Laboris eu magna magna exercitation do officia veniam proident duis est.
+
+In velit dolor adipisicing reprehenderit mollit mollit. Reprehenderit duis elit dolore laborum. Ullamco dolor eiusmod sit minim do sit fugiat est qui eu amet exercitation irure culpa.
+
+Ipsum irure cillum veniam magna ad fugiat ipsum sunt incididunt id laborum. Deserunt anim aliqua voluptate non proident nisi consequat ea eu veniam enim ad. Tempor laborum aute est quis voluptate velit veniam id exercitation ad aute dolor.
+
+Do deserunt laboris commodo anim anim ut elit. Enim aliquip reprehenderit amet eu. Eiusmod mollit cupidatat qui eiusmod sunt id deserunt aute sunt enim. Dolor consequat commodo nisi dolor laboris dolore labore adipisicing nisi est anim qui elit. Nulla in nostrud dolore anim enim commodo ipsum cupidatat non mollit qui.
+
+Aute enim in dolore mollit magna enim sit duis nisi voluptate mollit consectetur eu. Adipisicing Lorem quis laboris proident fugiat. Non adipisicing dolor proident occaecat. Voluptate cupidatat elit ad laborum laborum laborum consequat quis amet. Est aliquip nostrud est labore.
 
 %-------------------------------------------------------------------------
 \section{Conclusion}
-To-Do: Conclusion
+\label{sec:conclusion}
 
+lorem ipsum dolor sit amet Veniam nulla mollit esse officia et reprehenderit occaecat proident amet Lorem adipisicing tempor. Non enim ipsum minim aliquip ipsum ipsum occaecat commodo aliqua aute labore non dolore pariatur. Dolor aute amet sunt incididunt magna ipsum non. Amet laboris cillum exercitation et. Occaecat sint amet velit anim veniam ad laboris magna. Pariatur elit magna nisi anim sint cillum sunt ea aute velit nulla eu id. Adipisicing quis eiusmod ea reprehenderit aute adipisicing duis nulla.
+
+Fugiat do labore occaecat excepteur fugiat veniam laborum minim ad. Cupidatat ut consectetur adipisicing duis amet ex aliqua labore sit mollit duis ea excepteur. Exercitation occaecat deserunt deserunt veniam fugiat consectetur in aliquip. Et veniam est laboris eiusmod commodo commodo tempor aute nisi amet aliquip duis dolor ut. Ex anim velit elit qui ut incididunt. Laboris eu magna magna exercitation do officia veniam proident duis est.
+
+In velit dolor adipisicing reprehenderit mollit mollit. Reprehenderit duis elit dolore laborum. Ullamco dolor eiusmod sit minim do sit fugiat est qui eu amet exercitation irure culpa.
+
+Ipsum irure cillum veniam magna ad fugiat ipsum sunt incididunt id laborum. Deserunt anim aliqua voluptate non proident nisi consequat ea eu veniam enim ad. Tempor laborum aute est quis voluptate velit veniam id exercitation ad aute dolor.
+
+Do deserunt laboris commodo anim anim ut elit. Enim aliquip reprehenderit amet eu. Eiusmod mollit cupidatat qui eiusmod sunt id deserunt aute sunt enim. Dolor consequat commodo nisi dolor laboris dolore labore adipisicing nisi est anim qui elit. Nulla in nostrud dolore anim enim commodo ipsum cupidatat non mollit qui.
+
+Aute enim in dolore mollit magna enim sit duis nisi voluptate mollit consectetur eu. Adipisicing Lorem quis laboris proident fugiat. Non adipisicing dolor proident occaecat. Voluptate cupidatat elit ad laborum laborum laborum consequat quis amet. Est aliquip nostrud est labore.
 
 %-------------------------------------------------------------------------
 
