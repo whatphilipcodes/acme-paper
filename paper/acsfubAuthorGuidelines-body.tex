@@ -5,19 +5,26 @@
 % D.Fellner, v2.02, Jan 25, 2017
 
 
-\title[Domain-Specific DR Approximation]%
-      {Learning Domain-Specific Dimensionality Reduction: A Dataset Generation Pipeline}
+\title[Generating Spatial Coordinate Datasets from Text Embeddings]%
+      {Towards On-Device Continual Learning: A Pipeline for Generating Spatial Coordinate Datasets from Text Embeddings}
 
 % FILMUNI: for anonymous conference submission please enter your SUBMISSION ID
 % instead of the author's name (and leave the affiliation blank) !!
 % for final version: please provide your *own* ORCID in the brackets following \orcid; see https://orcid.org/ for more details.
 
-\author[P. Gerdes ]
-{\parbox{\textwidth}{\centering P. Gerdes$^{1}$}
-\\
-{\parbox{\textwidth}{\centering $^1$Film University Babelsberg KONRAD WOLF, Germany\\} 
-}
-}
+% AUTHOR SECTION NOT INCLUDED IN SUBMISSION (BLIND REVIEW)
+% \author[P. Gerdes ]
+% {\parbox{\textwidth}{\centering P. Gerdes$^{1}$}
+% \\
+% {\parbox{\textwidth}{\centering $^1$Film University Babelsberg KONRAD WOLF, Germany\\} 
+% }
+% }
+
+
+% KEYWORDS (NOT PART OF TEMPLATE):
+% Dataset Generation
+% Dimensionality Reduction
+% Continual Learning
 
 %-------------------------------------------------------------------------
 \begin{document}
@@ -32,7 +39,7 @@
 \maketitle
 %-------------------------------------------------------------------------
 \begin{abstract}
-    To-Do: Abstract
+    Continual Learning can be computationally demanding, making on-device deployment challenging. In an effort to perform dimensionality reduction that can be dynamically adjusted based on user feedback and running on-device, this paper proposes a dataset generation pipeline, providing the foundation for such a model. With a subset of the Wikipedia dataset as a source, text embeddings are generated using pretrained models such as “all-MiniLM-L6-v2”, “all-mpnet-base-v2” and “nomic-embed-text-v1.5”. These high-dimensional vectors are then reduced to two-dimensional coordinates by applying UMAP and t-SNE. The resulting datasets are compared and analyzed regarding their visual legibility and spatial-semantic coherence. Alongside this paper, the generation pipeline and resulting datasets are published.
 \end{abstract}
 
 %-------------------------------------------------------------------------
