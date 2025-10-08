@@ -1,0 +1,22 @@
+- ml for organizational tasks
+- tradeoff between portable domain-specific and computationally expensive generalizable modelling (ie. model compression through architectural changes)
+- skipping the embedding step
+
+---
+- need to use the same tokenizer !!!
+
+
+
+
+RUNTIMES:
+wikidata -> all-MiniLM-L6 (embedding): 1526.48 seconds
+all-MiniLM-L6 -> UMAP (dim reduction): 1054.20 seconds
+all-MiniLM-L6 -> t-SNE (dim reduction): 893.23 seconds
+
+wikidata -> all-mpnet-base-v2 (embedding): 10087.58 seconds
+all-mpnet-base-v2 -> UMAP (dim reduction):  1043.89 seconds
+all-mpnet-base-v2 -> t-SNE (dim reduction): 902.79 seconds
+
+wikidata -> nomic-embed-text-v1.5 (embedding): 47555.92 seconds
+nomic-embed-text-v1.5 -> UMAP (dim reduction):  1021.09 seconds
+nomic-embed-text-v1.5 -> t-SNE (dim reduction): 872.85 seconds

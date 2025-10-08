@@ -1,4 +1,7 @@
 {
     "editor.formatOnSave": true,
-    "latex-workshop.formatting.latex": "latexindent"
+    "latex-workshop.formatting.latex": "latexindent",
+    "cSpell.words": [
+        "processoingtasks"
+    ]
 }
