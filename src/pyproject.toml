@@ -18,7 +18,7 @@ dependencies = [
     "einops (>=0.8.1,<0.9.0)",
     "tqdm (>=4.67.1,<5.0.0)",
     "torch (>=2.8.0,<3.0.0)",
-    "opentsne (>=1.0.2,<2.0.0)"
+    "opentsne (>=1.0.2,<2.0.0)",
 ]
 
 [build-system]
@@ -30,7 +30,10 @@ package-mode = false
 
 [tool.poetry.dependencies]
 python = ">=3.11,<3.12"
-torch = { url = "https://download.pytorch.org/whl/cu128/torch-2.8.0%2Bcu128-cp311-cp311-win_amd64.whl" }
+torch = [
+    { url = "https://download.pytorch.org/whl/cu128/torch-2.8.0%2Bcu128-cp311-cp311-win_amd64.whl", markers = "sys_platform == 'win32'" },
+    { url = "https://download.pytorch.org/whl/cpu/torch-2.2.2-cp311-none-macosx_10_9_x86_64.whl", markers = "sys_platform == 'darwin'" },
+]
 
 [tool.poetry.group.dev.dependencies]
 jupyter = "^1.1.1"
