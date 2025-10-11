@@ -27,9 +27,6 @@
 # PDF output files
 *.pdf
 
-# plots
-src/img/*
-
 # Temporary files created by LiveTeX
 *.tmp
 *.dvi
@@ -49,3 +46,5 @@ src/img/*
 # Python
 .venv
 src/data
+src/eval
+src/img
