@@ -46,5 +46,4 @@
 # Python
 .venv
 src/data
-src/eval
 src/img
