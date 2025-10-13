@@ -4,6 +4,8 @@
 \usepackage{csquotes}
 \usepackage{hyperref}
 \usepackage{subfigure}
+\usepackage{pgfplotstable}
+\pgfplotsset{compat=1.18}
 
 \renewcommand{\sectionautorefname}{Section}
 \renewcommand{\subsectionautorefname}{Section}
@@ -21,18 +23,15 @@
 % instead of the author's name (and leave the affiliation blank) !!
 % for final version: please provide your *own* ORCID in the brackets following \orcid; see https://orcid.org/ for more details.
 
-% AUTHOR SECTION NOT INCLUDED IN SUBMISSION (BLIND REVIEW)
-% \author[P. Gerdes ]
-% {\parbox{\textwidth}{\centering P. Gerdes$^{1}$}
-% \\
-\author[Submission 9]
-{\parbox{\textwidth}{\centering Submission 9$^{1}$}
+% AUTHOR SECTION NOT INCLUDED IN 1ST SUBMISSION (BLIND REVIEW)
+\author[P. Gerdes ]
+{\parbox{\textwidth}{\centering P. Gerdes$^{1}$}
 \\
 {\parbox{\textwidth}{\centering $^1$Film University Babelsberg KONRAD WOLF, Germany\\} 
 }
 }
 
-% KEYWORDS (NOT PART OF TEMPLATE):
+% KEYWORDS:
 % Dataset Generation
 % Dimensionality Reduction
 % Continual Learning
@@ -42,11 +41,11 @@
 
 \teaser{
     \centering
-    \subfigure[all-MiniLM-L6-v2 UMAP]{\includegraphics[width=.32\linewidth]{img/all-MiniLM-L6-v2_umap_1000000_20250912T171832.png}\label{fig:minilm-umap}}
+    \subfigure[all-MiniLM-L6-v2 UMAP]{\includegraphics[width=.32\linewidth]{../src/img/all_MiniLM_L6_v2_umap.png}\label{fig:minilm-umap}}
     \hfill
-    \subfigure[all-mpnet-base-v2 UMAP]{\includegraphics[width=.32\linewidth]{img/all-mpnet-base-v2_umap_1000000_20250912T171904.png}\label{fig:mpnet-umap}}
+    \subfigure[all-mpnet-base-v2 UMAP]{\includegraphics[width=.32\linewidth]{../src/img/all_mpnet_base_v2_umap.png}\label{fig:mpnet-umap}}
     \hfill
-    \subfigure[nomic-embed UMAP]{\includegraphics[width=.32\linewidth]{img/nomic-embed-text-v1.5_umap_1000000_20250912T171936.png}\label{fig:nomic-umap}}
+    \subfigure[nomic-embed UMAP]{\includegraphics[width=.32\linewidth]{../src/img/nomic_embed_text_v1_5_umap.png}\label{fig:nomic-umap}}
     \caption{\label{fig:umap-comparison}
         Series of reduced embeddings using UMAP}
 }
@@ -61,15 +60,20 @@
 %-------------------------------------------------------------------------
 \section{Introduction}
 
-The contemporary information landscape is both vast and inflationary. This is particularly evident in technology-related fields, where professionals must constantly update, learn, and organize information to maintain effectiveness. An increasingly large portion of this cognitive effort is being supplemented by generative machine learning models: In the 2024 Stack Overflow developer survey 63.2\% of respondents reported the usage of AI tools \cite{AI2024Stack}.
+The contemporary information landscape is both vast and inflationary. This is particularly evident in technology-related fields, where professionals must constantly update, learn, and organize information to maintain effectiveness. An increasingly large portion of this cognitive effort is being supplemented by generative Machine Learning (ML) models: In the 2024 Stack Overflow developer survey 63.2\% of respondents reported reliance on tools that are implementing Artificial Intelligence (AI) \cite{AI2024Stack}.
 
 However, the centralized architecture through which these systems are typically deployed, diminishes user ownership and autonomy. This concern extends beyond mere convenience, as recent research also suggests cognitive implications: A study by Kosmyna et al. indicates that the use of ChatGPT for essay writing is associated with decreased neural connectivity and recall ability \cite{kosmynaYourBrainChatGPT2025}.
 
-Instead of relying on knowledge synthesis by large language models, a more balanced approach lies in automating the organizational aspects of information management. Not only could this enable full on-device processing for personal data such as note collections, but also allow local continual learning.
+Instead of relying on full knowledge synthesis by large language models, a more balanced approach lies in the usage of AI for automation of the organizational overhead around cognitive tasks. One particularly important aspect is the management and accessibility of human generated information. Cartographic visualizations resemble an excellent example for
+
+
+As an example, spatial mnemonic devices like the memory palace can be a powerful tool to strengthen ones retention ability \cite{brownMakeItStick2014}.
 
 Spatial mapping is particularly suitable for this purpose, as it mirrors how humans intuitively organize and navigate information. Representing a text corpus as a coordinate system provides an interpretable structure where semantic proximity translates into spatial closeness.
 
-To lay the groundwork for the training of models that combine the spatial output with light computational requirements, this paper proposes a dataset generation pipeline based on established text embedding and dimensionality reduction (DR) algorithms. It addresses the following practical question: How can sBERT embeddings combined with dimensionality reduction techniques like PCA, t-SNE, and UMAP be used to generate a training dataset that maps encyclopedic texts to spatial coordinates?
+This focused scope of application for AI drastically reduces the required resources for training and inference, therefore bringing full on-device processing and local Continual Learning (CL) within reach. To lay the groundwork for the training of models that combine the spatial output with light computational requirements, this paper proposes a dataset generation pipeline based on established text embedding and Dimensionality Reduction (DR) algorithms. It addresses the following practical question: How can sBERT embeddings combined with Dimensionality Reduction techniques like PCA, t-SNE, and UMAP be used to generate a training dataset that maps encyclopedic texts to spatial coordinates?
+
+\section{Contributions}
 
 The contributions are:
 \begin{itemize}
@@ -129,6 +133,7 @@ The proposed pipeline was developed and tested locally on a desktop workstation 
         \draw[->] (A) -- (B);
         \draw[->] (B) -- (D);
         \draw[->] (D) -- (F);
+        \draw[->] (D) |- (H);
 
         \draw[->] (F.east) -- (split) -| (G.south);
         \draw[->] (F.east) -- (split) -| (H.north);
@@ -153,11 +158,13 @@ Batch processing is implemented with model-specific batch sizes: 32 samples for 
 
 \subsubsection{Preprocessing Stage}
 
-All embedding vectors are L2-normalized to unit length, transforming the similarity metric from cosine similarity to Euclidean distance. This normalization ensures that subsequent distance-based algorithms operate in a geometrically consistent space.
-
 Prior to dimensionality reduction, embeddings undergo a two-step preprocessing procedure:
 
-A PCA transformation reduces embeddings to 50 dimensions. This additional dimensionality reduction serves dual purposes: Noise reduction and computational efficiency enhancement for subsequent non-linear dimensionality reduction algorithms.
+All embedding vectors are L2-normalized to unit length, transforming the similarity metric from cosine similarity to Euclidean distance. This normalization ensures that subsequent distance-based algorithms operate in a geometrically consistent space.
+
+A PCA transformation reduces embeddings to 50 dimensions. This intermediate dimensionality reduction serves dual purposes: Noise reduction and computational efficiency enhancement for subsequent non-linear dimensionality reduction algorithms. While not strictly necessary for UMAP unifrom preprocessing makes the results more comparable.
+
+% Mention MinMax Scaling (scikit) !!!
 
 \subsubsection{Dimensionality Reduction Stage}
 
@@ -173,13 +180,19 @@ The pipeline implements two complementary non-linear dimensionality reduction te
 
 \begin{figure*}[htb]
     \centering
-    \subfigure[all-MiniLM-L6-v2 t-SNE]{\includegraphics[width=.32\linewidth]{img/all-MiniLM-L6-v2_tsne_1000000_20250912T171816.png}\label{fig:minilm-tsne}}
+    \subfigure[all-MiniLM-L6-v2 t-SNE]{\includegraphics[width=.32\linewidth]{../src/img/all_MiniLM_L6_v2_tsne.png}\label{fig:minilm-tsne}}
     \hfill
-    \subfigure[all-mpnet-base-v2 t-SNE]{\includegraphics[width=.32\linewidth]{img/all-mpnet-base-v2_tsne_1000000_20250912T171848.png}\label{fig:mpnet-tsne}}
+    \subfigure[all-mpnet-base-v2 t-SNE]{\includegraphics[width=.32\linewidth]{../src/img/all_mpnet_base_v2_tsne.png}\label{fig:mpnet-tsne}}
     \hfill
-    \subfigure[nomic-embed t-SNE]{\includegraphics[width=.32\linewidth]{img/nomic-embed-text-v1.5_tsne_1000000_20250912T171920.png}\label{fig:nomic-tsne}}
-    \caption{\label{fig:tsne-comparison}
-        Series of reduced embeddings using t-SNE}
+    \subfigure[nomic-embed t-SNE]{\includegraphics[width=.32\linewidth]{../src/img/nomic_embed_text_v1_5_tsne.png}\label{fig:nomic-tsne}}
+    \\[1em]
+    \subfigure[all-MiniLM-L6-v2 PCA UMAP]{\includegraphics[width=.32\linewidth]{../src/img/all_MiniLM_L6_v2_umap_pca.png}\label{fig:minilm-umap-main}}
+    \hfill
+    \subfigure[all-mpnet-base-v2 PCA UMAP]{\includegraphics[width=.32\linewidth]{../src/img/all_mpnet_base_v2_umap_pca.png}\label{fig:mpnet-umap-main}}
+    \hfill
+    \subfigure[nomic-embed PCA UMAP]{\includegraphics[width=.32\linewidth]{../src/img/nomic_embed_text_v1_5_umap_pca.png}\label{fig:nomic-umap-main}}
+    \caption{\label{fig:tsne-umap-comparison}
+        Series of reduced embeddings using t-SNE (top) and UMAP (bottom)}
 \end{figure*}
 
 The synthetic dataset was successfully generated and subjected to dimensionality reduction analysis using the two prominent visualization techniques UMAP and t-SNE.
@@ -189,6 +202,23 @@ Considering \autoref{fig:umap-comparison} and \autoref{fig:tsne-comparison} ther
 %-------------------------------------------------------------------------
 \subsection{Evaluation}
 \label{sec:eval}
+
+\begin{table}[h!]
+    \centering
+    \pgfplotstabletypeset[
+        col sep=comma,
+        columns={config,knn,cpd},
+        columns/config/.style={column name=\textbf{Configuration}, column type=|l|, string type, verb string type},
+        columns/knn/.style={column name=\textbf{KNN}, column type=c|, fixed, fixed zerofill, precision=4},
+        columns/cpd/.style={column name=\textbf{CPD}, column type=c|, fixed, fixed zerofill, precision=4},
+        every head row/.style={before row=\hline, after row=\hline},
+        every last row/.style={after row=\hline},
+    ]{../src/eval/eval-None-20251012_031840.csv}
+    \caption{Evaluation results showing KNN and CPD scores for different embedding configurations}
+    \label{tab:eval-results}
+\end{table}
+
+- the problem of validating unsupervised -> trustworthiness scoring
 
 The selection of dimensionality reduction technique ultimately emerges as a matter of analytical preference, balancing space utilization against global recognizability. This choice reflects the inherent trade-off between maximizing the efficient use of visualization space and maintaining clear global structural patterns that facilitate pattern recognition and interpretation. The decision framework requires consideration of the specific analytical goals and the relative importance of local versus global data relationships.
 
@@ -218,7 +248,7 @@ The source data used in this paper is the wikipedia dataset \cite{WikimediaWikip
 \section{Code Availability}
 \label{sec:code-av}
 
-The code for the described pipeline alongside the generation of the figures used in this paper is available on GitHub (linked \href{https://github.com/whatphilipcodes/wikipos}{here}).
+The code for the described pipeline alongside the evaluation and generation of the figures used in this paper is available on GitHub (linked \href{https://github.com/whatphilipcodes/wikipos}{here}).
 
 %-------------------------------------------------------------------------
 
