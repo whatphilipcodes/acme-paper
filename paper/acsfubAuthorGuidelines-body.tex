@@ -113,6 +113,21 @@ The proposed pipeline was developed and tested locally on a desktop workstation 
     \item 128 GB RAM.
 \end{itemize}
 
+\begin{table}[h!]
+    \centering
+    \pgfplotstabletypeset[
+        col sep=comma,
+        columns={dataset,step,time},
+        columns/dataset/.style={column name=\textbf{Dataset}, column type=|l|, string type, verb string type},
+        columns/step/.style={column name=\textbf{Step}, column type=l|, string type, verb string type},
+        columns/time/.style={column name=\textbf{Time}, column type=l|, fixed, fixed zerofill, precision=4},
+        every head row/.style={before row=\hline, after row=\hline},
+        every last row/.style={after row=\hline},
+    ]{../src/eval/pipeline-runtimes-1000000-20251013_075621.csv}
+    \caption{Runtimes for the pipeline components}
+    \label{tab:pipeline-runtimes}
+\end{table}
+
 \begin{figure*}[htb]
     \centering
     \begin{tikzpicture}[
