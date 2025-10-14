@@ -107,10 +107,11 @@ This pipeline implements a comprehensive text embedding and dimensionality reduc
 As a prerequisite, this paper assumes an existing source dataset of texts. Due to scope, size and availability the wikipedia dataset (20231101.en subset) was chosen \cite{WikimediaWikipediaDatasets2025}.
 
 The proposed pipeline was developed and tested locally on a desktop workstation with the following specifications:
+
 \begin{itemize}
     \item An Intel Core i9-10980XE (3.00GHz) CPU
     \item an NVIDIA Quadro RTX 5000 (16GB) GPU
-    \item 128 GB RAM.
+    \item 128 GB RAM
 \end{itemize}
 
 \begin{table}[h!]
@@ -120,11 +121,11 @@ The proposed pipeline was developed and tested locally on a desktop workstation 
         columns={dataset,step,time},
         columns/dataset/.style={column name=\textbf{Dataset}, column type=|l|, string type, verb string type},
         columns/step/.style={column name=\textbf{Step}, column type=l|, string type, verb string type},
-        columns/time/.style={column name=\textbf{Time}, column type=l|, fixed, fixed zerofill, precision=4},
+        columns/time/.style={column name=\textbf{Time (s)}, column type=l|, fixed, fixed zerofill, precision=2},
         every head row/.style={before row=\hline, after row=\hline},
         every last row/.style={after row=\hline},
     ]{../src/eval/pipeline-runtimes-1000000-20251013_075621.csv}
-    \caption{Runtimes for the pipeline components}
+    \caption{Runtimes for the pipeline components (measured in seconds)}
     \label{tab:pipeline-runtimes}
 \end{table}
 
@@ -257,13 +258,13 @@ A central challenge for continual learning on-device lies in computational overh
 \section{Data Availability}
 \label{sec:data-av}
 
-The source data used in this paper is the wikipedia dataset \cite{WikimediaWikipediaDatasets2025}, available on Huggingface (linked \href{https://huggingface.co/datasets/wikimedia/wikipedia}{https://huggingface.co/datasets/wikimedia/wikipedia}). The resulting dataset generated using the described pipeline is also available on Huggingface (linked \href{https://huggingface.co/datasets/whatphiliptrains/wikipos}{https://huggingface.co/datasets/whatphiliptrains/wikipos}).
+The source data used in this paper is the wikipedia dataset \cite{WikimediaWikipediaDatasets2025}, available on Huggingface (linked here: \href{https://huggingface.co/datasets/wikimedia/wikipedia}{https://huggingface.co/datasets/wikimedia/wikipedia}). The resulting dataset generated using the described pipeline is also available on Huggingface (linked here: \href{https://huggingface.co/datasets/whatphiliptrains/wikipos}{https://huggingface.co/datasets/whatphiliptrains/wikipos}).
 
 %-------------------------------------------------------------------------
 \section{Code Availability}
 \label{sec:code-av}
 
-The code for the described pipeline alongside the evaluation and generation of the figures used in this paper is available on GitHub (linked \href{https://github.com/whatphilipcodes/acme-paper}{https://github.com/whatphilipcodes/acme-paper}).
+The code for the described pipeline alongside the evaluation and generation of the figures used in this paper is available on GitHub (linked here: \href{https://github.com/whatphilipcodes/acme-paper    }{https://github.com/whatphilipcodes/acme-paper}).
 
 %-------------------------------------------------------------------------
 
