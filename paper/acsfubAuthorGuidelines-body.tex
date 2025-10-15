@@ -46,8 +46,8 @@
     \subfigure[all-mpnet-base-v2 UMAP]{\includegraphics[width=.32\linewidth]{../src/img/all_mpnet_base_v2_umap.png}\label{fig:mpnet-umap}}
     \hfill
     \subfigure[nomic-embed UMAP]{\includegraphics[width=.32\linewidth]{../src/img/nomic_embed_text_v1_5_umap.png}\label{fig:nomic-umap}}
-    \caption{\label{fig:umap-comparison}
-        Series of reduced embeddings using UMAP}
+    \caption{\label{fig:umap-series}
+        Series of Uniform Manifold Approximation and Projection (UMAP) visualizations from Sentence-BERT embeddings for 1M Wikipedia articles. The projection organizes the articles by semantic similarity.}
 }
 
 \maketitle
@@ -59,26 +59,25 @@
 %-------------------------------------------------------------------------
 %-------------------------------------------------------------------------
 \section{Introduction}
+\label{sec:intro}
 
-The contemporary information landscape is both vast and inflationary. This is particularly evident in technology-related fields, where professionals must constantly update, learn, and organize information to maintain effectiveness. An increasingly large portion of this cognitive effort is being supplemented by generative Machine Learning (ML) models: In the 2024 Stack Overflow developer survey 63.2\% of respondents reported reliance on tools that are implementing Artificial Intelligence (AI) \cite{AI2024Stack}.
+The contemporary information landscape is both vast and inflationary. This is particularly evident in technology-related fields, where professionals must constantly update, learn, and organize information to maintain effectiveness. An increasingly large portion of this cognitive effort is being supplemented with machine learning (ML): In the 2024 Stack Overflow developer survey 63.2\% of respondents reported reliance on tools that are implementing artificial intelligence \cite{AI2024Stack}.
 
 However, the centralized architecture through which these systems are typically deployed, diminishes user ownership and autonomy. This concern extends beyond mere convenience, as recent research also suggests cognitive implications: A study by Kosmyna et al. indicates that the use of ChatGPT for essay writing is associated with decreased neural connectivity and recall ability \cite{kosmynaYourBrainChatGPT2025}.
 
-Instead of relying on full knowledge synthesis by large language models, a more balanced approach lies in the usage of AI for automation of the organizational overhead around cognitive tasks. One particularly important aspect is the management and accessibility of human generated information. Cartographic visualizations resemble an excellent example for
+Instead of relying on full knowledge synthesis through large language models, a more balanced approach lies in using ML to reduce the organizational overhead and friction around cognitive tasks. First and foremost addressing management and accessibility of human generated information, this could potentially aid with comprehension and retention ability.
 
+% TO-DO
+% - paragraph about knowledge maps, concept mapping
 
-As an example, spatial mnemonic devices like the memory palace can be a powerful tool to strengthen ones retention ability \cite{brownMakeItStick2014}.
+% Spatial mapping is particularly suitable for this purpose, as it mirrors how humans intuitively organize and navigate information. Representing a text corpus as a coordinate system provides an interpretable structure where semantic proximity translates into spatial closeness.
 
-Spatial mapping is particularly suitable for this purpose, as it mirrors how humans intuitively organize and navigate information. Representing a text corpus as a coordinate system provides an interpretable structure where semantic proximity translates into spatial closeness.
-
-This focused scope of application for AI drastically reduces the required resources for training and inference, therefore bringing full on-device processing and local Continual Learning (CL) within reach. To lay the groundwork for the training of models that combine the spatial output with light computational requirements, this paper proposes a dataset generation pipeline based on established text embedding and Dimensionality Reduction (DR) algorithms. It addresses the following practical question: How can sBERT embeddings combined with Dimensionality Reduction techniques like PCA, t-SNE, and UMAP be used to generate a training dataset that maps encyclopedic texts to spatial coordinates?
-
-\section{Contributions}
+% This focused scope of application for ML drastically reduces the required resources for training and inference, therefore bringing full on-device processing and local Continual Learning (CL) within reach. To lay the groundwork for the training of models that combine the spatial output with light computational requirements, this paper proposes a dataset generation pipeline based on established text embedding and Dimensionality Reduction (DR) algorithms. It addresses the following practical question: How can Sentence-Bert embeddings combined with Dimensionality Reduction techniques like PCA, t-SNE, and UMAP be used to generate a training dataset that maps encyclopedic texts to spatial coordinates?
 
 The contributions are:
 \begin{itemize}
     \item A concise review of relevant embedding and DR approaches (\autoref{sec:rel-work}).
-    \item A reproducible pipeline for constructing coordinate datasets from a medium size text corpus and pretrained encoders (\autoref{sec:pipeline}).
+    \item A reproducible pipeline as a blueprint for constructing coordinate datasets from a medium size text corpus and pretrained encoders (\autoref{sec:main}).
     \item A brief analysis of the produced datasets with regard to overall spatial structure (\autoref{sec:results}, \autoref{sec:eval} and \autoref{sec:discussion}).
 \end{itemize}
 
@@ -86,9 +85,9 @@ The contributions are:
 \section{Related Work}
 \label{sec:rel-work}
 
-Embedding generation is the prerequisite for understanding and comparing textual data. Sentence-BERT (sBERT) \cite{reimersSentenceBERTSentenceEmbeddings2019a} produces contextual embeddings that account for word order and surrounding semantics, making it a well-established foundation in many downstream natural language processing (NLP) tasks. In this work, sBERT serves as the primary framework to generate high-dimensional embeddings. However, these embeddings alone are not directly interpretable, requiring an additional DR step for visualization.
+Embedding generation is the prerequisite for understanding and comparing textual data. Sentence-BERT (SBERT) \cite{reimersSentenceBERTSentenceEmbeddings2019a} produces contextual embeddings that account for word order and surrounding semantics, making it a well-suited foundation in many downstream natural language processing tasks. In this work, multiple SBERT variants are used to generate these high-dimensional embedding vectors.
 
-Dimensionality reduction techniques such as PCA, t-SNE, and UMAP are widely applied to high-dimensional data for visualization and interactive exploration \cite{smilkovEmbeddingProjectorInteractive2016}. PCA provides a stable linear reduction and is frequently used as a preprocessing step. t-SNE remains a popular choice for uncovering fine-grained local clusters but is computationally demanding. OpenTSNE implementations improve efficiency and scalability, making it more suitable for large datasets \cite{policarOpenTSNEModularPython2024}. UMAP, in contrast, emphasizes global structure while still preserving local neighborhoods \cite{mcinnesUMAPUniformManifold2020a}. This property makes UMAP complementary to t-SNE: While t-SNE excels at separating dense clusters, UMAP offers continuity across regions of semantic space.
+DR techniques such as Principal Component Analysis (PCA), t-distributed Stochastic Neighbor Embedding (t-SNE), and Uniform Manifold Approximation and Projection (UMAP) are widely applied to high-dimensional data for visualization and interactive exploration \cite{smilkovEmbeddingProjectorInteractive2016}. PCA provides a stable linear reduction and is frequently used as a preprocessing step. t-SNE remains a popular choice for uncovering fine-grained local clusters but is computationally demanding. The OpenTSNE implementation improves efficiency and scalability, making it more suitable for medium to large datasets \cite{policarOpenTSNEModularPython2024}. UMAP, in contrast, emphasizes global structure while still preserving local neighborhoods \cite{mcinnesUMAPUniformManifold2020a}.
 
 Finally, commercial systems such as Nomic Atlas \cite{duderstadtAtlasWhitepaperScalable} adopt a similar approach, embedding large-scale corpora and projecting them into low-dimensional interactive maps. Atlas is designed for scalability and integrates with projection frameworks such as NOMAD \cite{nussbaumNomicEmbedTraining2025}. However, parts of the system remain proprietary, limiting reproducibility. In contrast, the dataset generation pipeline proposed here is aimed at small models suitable for continual learning while remaining fully open-source.
 
@@ -96,15 +95,15 @@ Finally, commercial systems such as Nomic Atlas \cite{duderstadtAtlasWhitepaperS
 \section{Dataset Generation from Dimensionality Reduction }
 \label{sec:main}
 
-This dataset is supposed to express similarity in content as spatial proximity between data points. The process is divided into two stages: First, the textual data is converted into a semantic text embeddings and secondly, the high-dimensional embedding vector is reduced to two dimensions.
+The intended goal for the dataset is to express similarity in content as spatial proximity between data points. The process is divided into two stages: First, the textual data is converted into semantic text embeddings and secondly, the high-dimensional embedding vector is reduced to two dimensions.
 
 %-------------------------------------------------------------------------
 \subsection{Pipeline Implementation}
-\label{sec:pipeline}
+\label{subsec:pipeline}
 
-This pipeline implements a comprehensive text embedding and dimensionality reduction workflow for processing textual datasets using multiple embedding models. The pipeline consists of three primary stages: Text embedding generation, preprocessing with principal component analysis, and two-dimensional projection using both t-SNE and UMAP algorithms.
+All components are exchangeable using standard Huggingface APIs. This customizable design allows to quickly test and adjust multiple models when building a domain-specific dataset. To ensure extensive reproducibility, the random seed in all non-deterministic calculations is fixed to $97$.
 
-As a prerequisite, this paper assumes an existing source dataset of texts. Due to scope, size and availability the wikipedia dataset (20231101.en subset) was chosen \cite{WikimediaWikipediaDatasets2025}.
+As a prerequisite, this paper assumes an existing source dataset of texts. For demonstration purposes, the wikipedia dataset (20231101.en subset) was chosen \cite{WikimediaWikipediaDatasets2025}. Due to scope and hardware limitations, only a subset of sample size $n = 1M$ was selected.
 
 The proposed pipeline was developed and tested locally on a desktop workstation with the following specifications:
 
@@ -114,51 +113,39 @@ The proposed pipeline was developed and tested locally on a desktop workstation 
     \item 128 GB RAM
 \end{itemize}
 
-\begin{table}[h!]
-    \centering
-    \pgfplotstabletypeset[
-        col sep=comma,
-        columns={dataset,step,time},
-        columns/dataset/.style={column name=\textbf{Dataset}, column type=|l|, string type, verb string type},
-        columns/step/.style={column name=\textbf{Step}, column type=l|, string type, verb string type},
-        columns/time/.style={column name=\textbf{Time (s)}, column type=l|, fixed, fixed zerofill, precision=2},
-        every head row/.style={before row=\hline, after row=\hline},
-        every last row/.style={after row=\hline},
-    ]{../src/eval/pipeline-runtimes-1000000-20251013_075621.csv}
-    \caption{Runtimes for the pipeline components (measured in seconds)}
-    \label{tab:pipeline-runtimes}
-\end{table}
-
 \begin{figure*}[htb]
     \centering
     \begin{tikzpicture}[
             scale=0.9,
-            node distance=1.5cm and 2cm,
+            node distance=1cm and 1.5cm,
             box/.style={draw, rectangle, align=center, font=\small, inner sep=0.28cm}
         ]
         \node[box] (A) {wikipedia\\20231101.en};
         \node[box, right=of A] (B) {subset};
-        \node[box, right=of B] (D) {sBERT\\embedding};
+        \node[box, right=of B] (C) {SBERT\\embedding};
+        \node[box, right=of C] (D) {L2 normalization};
         \node[box, right=of D] (F) {PCA};
 
         \coordinate (split) at ($(F.east)+(2,0)$);
 
-        \node[box, above=of split] (G) {tSNE};
+        \node[box, above=of split] (G) {t-SNE};
         \node[box, below=of split] (H) {UMAP};
 
         \draw[->] (A) -- (B);
-        \draw[->] (B) -- (D);
+        \draw[->] (B) -- (C);
+        \draw[->] (C) -- (D);
         \draw[->] (D) -- (F);
         \draw[->] (D) |- (H);
 
         \draw[->] (F.east) -- (split) -| (G.south);
         \draw[->] (F.east) -- (split) -| (H.north);
     \end{tikzpicture}
-    \caption{Data generation pipeline: A subset of 1M entries is selected from the wikipedia dataset. For each sBERT model, the embedding is inferred and then reduced to 50 dimensions in the principal component analysis (PCA). Finally, all entries are reduced using both tSNE and UMAP separately.}
-    \label{fig:pipeline}
+    \caption{Schematic overview of the dataset generation pipeline components: A subset of 1M entries is selected from the Wikipedia dataset. Each SBERT model is used to generate an embedding. The results are normalized to Euclidean space (L2 normalization). PCA with a reduction to 50 dimensions is applied before the final dimensionality reduction step using t-SNE. The UMAP is computed both with and without the prior PCA preprocessing.}
+    \label{fig:pipeline-overview}
 \end{figure*}
 
 \subsubsection{Embedding Generation Stage}
+\label{sec:embed-gen}
 
 The pipeline employs three distinct pre-trained sentence transformer models for text embedding generation:
 
@@ -173,6 +160,7 @@ The nomic-embed-text-v1.5 model is configured with a clustering-specific prompt 
 Batch processing is implemented with model-specific batch sizes: 32 samples for basic models and 16 samples for nomic-embed-text-v1.5, balancing computational efficiency with memory constraints.
 
 \subsubsection{Preprocessing Stage}
+\label{sec:preprocessing}
 
 Prior to dimensionality reduction, embeddings undergo a two-step preprocessing procedure:
 
@@ -186,12 +174,12 @@ A PCA transformation reduces embeddings to 50 dimensions. This intermediate dime
 
 The pipeline implements two complementary non-linear dimensionality reduction techniques for 2D visualization: UMAP (Uniform Manifold Approximation and Projection) and t-SNE (t-Distributed Stochastic Neighbor Embedding). Final 2D coordinates from both UMAP and t-SNE are normalized to the range [-1, 1] using Min-Max scaling to ensure consistent coordinate spaces across different reduction techniques and facilitate comparative analysis.
 
-\autoref{fig:pipeline} shows an overview of the implementation.
+\autoref{fig:pipeline-overview} shows an overview of the implementation.
 
 
 
 %-------------------------------------------------------------------------
-\subsection{Results}
+\subsection{Result}
 \label{sec:results}
 
 \begin{figure*}[htb]
@@ -202,18 +190,35 @@ The pipeline implements two complementary non-linear dimensionality reduction te
     \hfill
     \subfigure[nomic-embed t-SNE]{\includegraphics[width=.32\linewidth]{../src/img/nomic_embed_text_v1_5_tsne.png}\label{fig:nomic-tsne}}
     \\[1em]
-    \subfigure[all-MiniLM-L6-v2 PCA UMAP]{\includegraphics[width=.32\linewidth]{../src/img/all_MiniLM_L6_v2_umap_pca.png}\label{fig:minilm-umap-main}}
+    \subfigure[all-MiniLM-L6-v2 PCA UMAP]{\includegraphics[width=.32\linewidth]{../src/img/all_MiniLM_L6_v2_umap_pca.png}\label{fig:minilm-umap-pca}}
     \hfill
-    \subfigure[all-mpnet-base-v2 PCA UMAP]{\includegraphics[width=.32\linewidth]{../src/img/all_mpnet_base_v2_umap_pca.png}\label{fig:mpnet-umap-main}}
+    \subfigure[all-mpnet-base-v2 PCA UMAP]{\includegraphics[width=.32\linewidth]{../src/img/all_mpnet_base_v2_umap_pca.png}\label{fig:mpnet-umap-pca}}
     \hfill
-    \subfigure[nomic-embed PCA UMAP]{\includegraphics[width=.32\linewidth]{../src/img/nomic_embed_text_v1_5_umap_pca.png}\label{fig:nomic-umap-main}}
-    \caption{\label{fig:tsne-umap-comparison}
-        Series of reduced embeddings using t-SNE (top) and UMAP (bottom)}
+    \subfigure[nomic-embed PCA UMAP]{\includegraphics[width=.32\linewidth]{../src/img/nomic_embed_text_v1_5_umap_pca.png}\label{fig:nomic-umap-pca}}
+    \caption{Series of reduced and normalized SBERT embeddings. The top row (a-c) is comprised of t-SNE embeddings, preprocessed with PCA. The Bottom row (d-e) displays a comparison of both UMAP configurations: Direct reduction of the full-length SBERT embedding (grey coordinates) as seen in \autoref{fig:umap-series} and the PCA preprocessed projection (orange coordinates).}
+    \label{fig:tsne-umap-comparison}
 \end{figure*}
 
 The synthetic dataset was successfully generated and subjected to dimensionality reduction analysis using the two prominent visualization techniques UMAP and t-SNE.
 
-Considering \autoref{fig:umap-comparison} and \autoref{fig:tsne-comparison} there are distinct characteristics revealed in both visualization approaches: UMAP exhibited very pronounced global structures with a landscape-like appearance, effectively preserving the overall topology and global relationships within the data. In contrast, t-SNE demonstrated superior space utilization, distributing data points more evenly across the available visualization area while maintaining local neighborhood structures. These complementary strengths suggest that the choice between methods depends on whether preserving global structure or maximizing space efficiency is the primary analytical objective.
+\begin{table}[h!]
+    \centering
+    \pgfplotstabletypeset[
+        col sep=comma,
+        columns={dataset,step,time},
+        columns/dataset/.style={column name=\textbf{Dataset}, column type=|l|, string type, verb string type},
+        columns/step/.style={column name=\textbf{Step}, column type=l|, string type, verb string type},
+        columns/time/.style={column name=\textbf{Time}, column type=l|, fixed, fixed zerofill, precision=2},
+        every head row/.style={before row=\hline, after row=\hline},
+        every last row/.style={after row=\hline},
+    ]{../src/eval/pipeline-runtimes-1000000-20251013_075621.csv}
+    \caption{Runtimes for the pipeline components measured in seconds. The total runtime was measured across the full execution (excluding dataset loading times)}
+    \label{tab:runtimes}
+\end{table}
+
+On the specified hardware a full execution cycle was completed in under a full day (about 21.74 hours). The embedding generation was the primary bottleneck with the \texttt{nomic-embed-text-v1-5} variant responsible for over half of the total runtime (about 13.22 hours). Detailed runtimes for each component individually are presented in \autoref{tab:runtimes}.
+
+Considering \autoref{fig:umap-series} and \autoref{fig:tsne-umap-comparison} there are distinct characteristics revealed in both visualization approaches: UMAP exhibited very pronounced global structures with a landscape-like appearance, effectively preserving the overall topology and global relationships within the data. In contrast, t-SNE demonstrated superior space utilization, distributing data points more evenly across the available visualization area while maintaining local neighborhood structures. These complementary strengths suggest that the choice between methods depends on whether preserving global structure or maximizing space efficiency is the primary analytical objective.
 
 %-------------------------------------------------------------------------
 \subsection{Evaluation}
@@ -230,7 +235,7 @@ Considering \autoref{fig:umap-comparison} and \autoref{fig:tsne-comparison} ther
         every head row/.style={before row=\hline, after row=\hline},
         every last row/.style={after row=\hline},
     ]{../src/eval/eval-None-20251012_031840.csv}
-    \caption{Evaluation results showing KNN and CPD scores for different embedding configurations}
+    \caption{Evaluation results showing k-nearest neighbor recall (KNN) and correlation of pairwise distances (CPD) scores as described by Kury et al. \cite{kuryDREAMSPreservingBoth2025} for all pipeline configurations.}
     \label{tab:eval-results}
 \end{table}
 
@@ -241,13 +246,22 @@ The selection of dimensionality reduction technique ultimately emerges as a matt
 A critical factor in the embedding evaluation process was the context length limitation of the embedding models. Notably, the Nomic embedding model was the only approach capable of capturing full articles in their entirety, while all other embedding methods required truncation of the input text. This limitation significantly impacts the quality and completeness of the semantic representations, as truncated articles may lose crucial contextual information and semantic relationships that extend beyond the model's context window, potentially affecting downstream analysis and visualization quality.
 
 %-------------------------------------------------------------------------
-\subsection{Discussion}
+\section{Discussion}
 \label{sec:discussion}
 
 The performance and effectiveness of embedding models demonstrate significant sensitivity to data domain specificity, highlighting the importance of model selection based on the characteristics of the target dataset. Domain-specific training and fine-tuning can substantially influence how well embedding models capture the nuanced semantic relationships and terminology unique to particular fields or text types. This domain dependency suggests that embedding model performance cannot be universally generalized across different types of content, requiring careful consideration of the alignment between model training data and the specific domain of application to achieve optimal representation quality.
 
+
+\subsection{Future Work}
+\label{sec:future-work}
+
+% TO-DO
+
+% dataset for supervised modelling
+% continual learning
+
 %-------------------------------------------------------------------------
-\section{Conclusion / Future Work}
+\section{Conclusion}
 \label{sec:conclusion}
 
 Future work should consider the exploration of additional dimensionality reduction approaches beyond the traditional UMAP and t-SNE methods examined in this study. Alternative techniques such as PaCMAP \cite{JMLR:v22:20-1061} offer promising avenues for investigation, potentially providing different trade-offs between computational efficiency and visualization quality that could complement the existing methodological landscape.
@@ -264,7 +278,7 @@ The source data used in this paper is the wikipedia dataset \cite{WikimediaWikip
 \section{Code Availability}
 \label{sec:code-av}
 
-The code for the described pipeline alongside the evaluation and generation of the figures used in this paper is available on GitHub (linked here: \href{https://github.com/whatphilipcodes/acme-paper    }{https://github.com/whatphilipcodes/acme-paper}).
+The code for the described pipeline alongside the evaluation and generation of the figures used in this paper is available on GitHub (linked here: \href{https://github.com/whatphilipcodes/acme-paper}{https://github.com/whatphilipcodes/acme-paper}).
 
 %-------------------------------------------------------------------------
 
