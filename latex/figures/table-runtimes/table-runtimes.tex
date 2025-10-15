@@ -1,0 +1,42 @@
+% !TEX root = ../acsfubAuthorGuidelines-short.tex
+\documentclass{standalone}
+\usepackage{tikz}
+\usetikzlibrary{positioning,calc}
+\usepackage{csquotes}
+\usepackage{hyperref}
+\usepackage{subfigure}
+\usepackage{pgfplotstable}
+\pgfplotsset{compat=1.18}
+
+\usepackage{xcolor}
+\definecolor{myLightGray}{HTML}{F1F1F1}
+
+\begin{document}
+\color{myLightGray}
+
+\pgfplotstabletypeset[
+    col sep=comma,
+    columns={dataset,step,time},
+    columns/dataset/.style={
+            column name=\textbf{Dataset},
+            column type=|l|,
+            string type,
+            verb string type,
+        },
+    columns/step/.style={
+            column name=\textbf{Step},
+            column type=l|,
+            string type,
+            verb string type,
+        },
+    columns/time/.style={
+            column name=\textbf{Time},
+            column type=l|,
+            fixed,
+            fixed zerofill,
+            precision=2
+        },
+    every head row/.style={before row=\hline, after row=\hline},
+    every last row/.style={after row=\hline},
+]{../../../src/eval/pipeline-runtimes-1000000-20251013_075621.csv}
+\end{document}

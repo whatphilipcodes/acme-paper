@@ -41,6 +41,12 @@ section {
   font-family: 'Roboto', sans-serif;
   font-size: var(--font-size);
   line-height: 1.6;
+
+  /* Invert color scheme for light background slides */
+  &:where(.invert) {
+    background-color: var(--col-mono-50);
+    color: var(--col-mono-900);
+  }
 }
 
 section[data-marpit-pagination="1"],
@@ -60,6 +66,11 @@ section::after {
   width: fit-content;
   background-color: var(--col-mono-900);
   content: attr(data-marpit-pagination) ' · ' attr(data-marpit-pagination-total)
+}
+
+section:where(.invert)::after {
+  background-color: var(--col-mono-100);
+  color: var(--col-mono-500);
 }
 
 header,
@@ -135,6 +146,10 @@ blockquote {
   width: fit-content;
 }
 
+section:where(.invert) blockquote {
+  background-color: var(--col-mono-100);
+}
+
 code {
   font-family: 'Roboto Mono', monospace;
   font-size: calc(var(--font-size) * 0.96);
@@ -144,10 +159,18 @@ code {
   padding: 8px 16px;
 }
 
+section:where(.invert) code {
+  background-color: var(--col-mono-100);
+}
+
 pre {
   padding: var(--padding);
   background-color: var(--col-mono-900);
   border-radius: var(--border-radius);
+}
+
+section:where(.invert) pre {
+  background-color: var(--col-mono-100);
 }
 
 pre > code {
@@ -192,14 +215,27 @@ a {
   background-color: var(--col-mono-900);
 }
 
+section:where(.invert) .sections {
+  background-color: var(--col-mono-100);
+  color: var(--col-mono-500);
+}
+
 .sections > *:not(:first-child)::before {
   content: '/';
   color: var(--col-mono-600);
   margin: 16px;
 }
 
+section:where(.invert) .sections > *:not(:first-child)::before {
+  color: var(--col-mono-500);
+}
+
 .sections > .active {
   color: var(--col-mono-50);
+}
+
+section:where(.invert) .sections > .active {
+  color: var(--col-mono-900);
 }
 
 
