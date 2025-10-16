@@ -65,14 +65,14 @@ The contemporary information landscape is both vast and inflationary. This is pa
 
 However, the centralized architecture through which these systems are typically deployed, diminishes user ownership and autonomy. This concern extends beyond mere convenience, as recent research also suggests cognitive implications: A study by Kosmyna et al. indicates that the use of ChatGPT for essay writing is associated with decreased neural connectivity and recall ability \cite{kosmynaYourBrainChatGPT2025}.
 
-Instead of relying on full knowledge synthesis through large language models, a more balanced approach lies in using ML to reduce the organizational overhead and friction around cognitive tasks. First and foremost addressing management and accessibility of human generated information, this could potentially aid with comprehension and retention ability.
+Instead of relying on full knowledge synthesis through large language models, a more balanced approach lies in using ML to reduce the organizational overhead and friction around cognitive tasks. Addressing primarily the management and accessibility of human-generated information, this could potentially aid with comprehension and retention ability as well.
 
-A promising strategy for achieving this involves leveraging human spatial cognition. By translating the abstract, semantic relationships within a text corpus into a visual, two-dimensional plane, information can be organized in a way that is inherently intuitive. While such mappings can be generated using static dimensionality reduction (DR) techniques, a model that can continually learn and adapt the spatial layout to ones evolving needs is not yet available. The development of such a system is predicated on having a domain-specific target dataset. This paper, therefore, establishes a foundational pipeline to generate these spatial datasets from text embeddings. It addresses the following practical question: How can Sentence-Bert embeddings combined with Dimensionality Reduction techniques like PCA, t-SNE, and UMAP be used to generate a training dataset that maps encyclopedic texts to spatial coordinates?
+A promising strategy involves leveraging human spatial cognition. By translating the abstract, semantic relationships within a text corpus into a visual, two-dimensional plane, information can be organized in a way that is inherently intuitive. While such mappings can be generated using static dimensionality reduction (DR) techniques, a model that can continually learn and adapt the spatial layout to one's evolving needs is not yet available. The development of such a system is predicated on having a domain-specific target dataset. This paper, therefore, establishes a foundational pipeline to generate these spatial datasets from arbitrary text input. It addresses the following practical question: How can Sentence-Bert embeddings combined with Dimensionality Reduction techniques like PCA, t-SNE, and UMAP be used to generate a training dataset that maps encyclopedic texts to spatial coordinates?
 
 The contributions are:
 \begin{itemize}
     \item A concise review of relevant embedding and DR approaches (\autoref{sec:rel-work}).
-    \item A reproducible pipeline as a blueprint for constructing coordinate datasets from a medium size text corpus and pretrained encoders (\autoref{sec:main}).
+    \item A reproducible pipeline as a blueprint for constructing coordinate datasets from a medium-size text corpus and pretrained encoders (\autoref{sec:main}).
     \item A brief analysis of the produced dataset configurations with regard to overall spatial structure (\autoref{sec:results}, \autoref{sec:eval} and \autoref{sec:discussion}).
 \end{itemize}
 
@@ -96,7 +96,7 @@ The pipeline is implemented as a two-stage process designed to represent semanti
 \subsection{Pipeline Implementation}
 \label{subsec:pipeline}
 
-The pipeline's implementation prioritizes modularity and reproducibility. Its components are fully exchangeable via standard Huggingface APIs, a design choice that allows for the flexible testing of various models and parameters for domain-specific applications. To ensure consistent and reproducible results, the random seed for all non-deterministic processes is fixed to $97$. As a practical demonstration, this paper utilizes the Wikipedia dataset \cite{WikimediaWikipediaDatasets2025} (\texttt{20231101.en} configuration) as its source corpus. To manage computational demands within hardware and scope constraints, the development and testing was performed on a subset of $n=1M$ articles. The complete pipeline is illustrated in \autoref{fig:pipeline-overview}. The workstation specifications are as follows:
+The pipeline's implementation prioritizes modularity and reproducibility. Its components are fully exchangeable via standard Hugging Face APIs, a design choice that allows for the flexible testing of various models and parameters for domain-specific applications. To ensure consistent and reproducible results, the random seed for all non-deterministic processes is fixed to $97$. As a practical demonstration, this paper utilizes the Wikipedia dataset \cite{WikimediaWikipediaDatasets2025} (\texttt{20231101.en} configuration) as its source corpus. To manage computational demands within hardware and scope constraints, development and testing were performed on a subset of $n=1M$ articles. The complete pipeline is illustrated in \autoref{fig:pipeline-overview}. The workstation specifications are as follows:
 
 \begin{itemize}
     \item An Intel Core i9-10980XE (3.00GHz) CPU
@@ -111,7 +111,7 @@ The pipeline's implementation prioritizes modularity and reproducibility. Its co
             node distance=1cm and 1.5cm,
             box/.style={draw, rectangle, align=center, font=\small, inner sep=0.28cm}
         ]
-        \node[box] (A) {wikipedia\\20231101.en};
+        \node[box] (A) {Wikipedia\\20231101.en};
         \node[box, right=of A] (B) {subset};
         \node[box, right=of B] (C) {SBERT\\embedding};
         \node[box, right=of C] (D) {L2 normalization};
@@ -163,7 +163,7 @@ The final stage of the pipeline reduces the high-dimensional embeddings into a t
 
 The \texttt{umap-learn} library \cite{mcinnesUMAPUniformManifold2020a} is utilized to generate two distinct configurations. The first is applied directly to the full-dimensional, L2-normalized embeddings using the default "spectral" initialization. The second is applied to the 50-dimensional data resulting from the PCA preprocessing step. For this second variant, the UMAP algorithm is initialized using an additional PCA reduction to the target dimension. This strategy provides a more informed starting point for the internal optimization process, which can accelerate convergence.
 
-In contrast, the more computationally demanding t-SNE reduction is performed exclusively on the lower dimensional PCA processed data. The \texttt{openTSNE} implementation is further optimized by leveraging parallel processing. Analogous to UMAP, PCA is used as initialization strategy here as well. It is important to note that only default hyperparameters were used for both algorithms. This choice was made intentionally, as the pipeline is presented as an adaptable blueprint for domain-specific applications where subsequent fine-tuning would be a necessary step.
+In contrast, the more computationally demanding t-SNE reduction is performed exclusively on the lower dimensional PCA processed data. The \texttt{openTSNE} implementation is further optimized by leveraging parallel processing. Analogous to UMAP, PCA is used as an initialization strategy here as well. It is important to note that only default hyperparameters were used for both algorithms. This choice was made intentionally, as the pipeline is presented as an adaptable blueprint for domain-specific applications where subsequent fine-tuning would be a necessary step.
 
 Following the reduction, a final normalization step is applied to all generated coordinates. Using the MinMaxScaler from the \texttt{scikit-learn} \cite{pedregosaScikitlearnMachineLearning2018} library, the 2D coordinates for each output are scaled to a consistent range of $\left[-1,1\right]$. This ensures that the outputs from different models and configurations inhabit a uniform geometric space, facilitating direct visual and quantitative comparison. To provide a comprehensive performance analysis, runtimes for each individual step of the pipeline were measured. The total execution time was also recorded (excluding the initial dataset loading phase).
 
@@ -247,7 +247,7 @@ Beyond the choice of DR technique, a scoring hierarchy emerged among the embeddi
 
 The CPD scores, while useful for estimating global structure, were calculated on a random subset of only $1000$ data points. This sampling approach was necessary for computational feasibility but may not fully represent the complex global relationships within the entire dataset.
 
-Furthermore, KNN scores, while differentiating the models, are relatively low across the board. This is not unexpected, given the inherent difficulty of compressing dense, high-dimensional text embeddings into a two-dimensional space. The large scale of the dataset and the absence of hyperparameter tuning for the reduction algorithms also contribute to that. Fine-tuning the parameters for UMAP and t-SNE would likely yield improved local structure preservation.
+Furthermore, KNN scores, while differentiating the models, are relatively low across the board. This is not unexpected, given the inherent difficulty of compressing dense, high-dimensional text embeddings into a two-dimensional space. The large scale of the dataset and the absence of hyperparameter tuning for the reduction algorithms also contribute to these low scores. Fine-tuning the parameters for UMAP and t-SNE would likely yield improved local structure preservation.
 
 Another factor influencing the results is the context length limitation of the embedding models. The superior performance of \texttt{nomic-embed-text-v1-5} across all metrics could be linked to its ability to process entire articles without truncation. In contrast, the \texttt{all-MiniLM-L6-v2} and \texttt{all-mpnet-base-v2} models were forced to discard portions of longer texts. This reveals another trade-off: While the Nomic model produced a more faithful representation, it did so at a significant computational cost, accounting for over half of the pipeline's total runtime. This balance between embedding quality and processing time is an important consideration for the practical application, especially when quick iterations are required.
 
@@ -268,9 +268,9 @@ This paper introduced a reproducible pipeline for generating lower-dimensional c
 \section{Data Availability}
 \label{sec:data-av}
 
-The source data used in this paper is the wikipedia dataset \cite{WikimediaWikipediaDatasets2025}, available on Huggingface: \noindent\url{https://huggingface.co/datasets/wikimedia/wikipedia}
+The source data used in this paper is the Wikipedia dataset \cite{WikimediaWikipediaDatasets2025}, available on Hugging Face: \noindent\url{https://huggingface.co/datasets/wikimedia/wikipedia}
 
-The resulting dataset generated using the described pipeline is also available on Huggingface: \noindent\url{https://huggingface.co/datasets/whatphiliptrains/wikipos}
+The resulting dataset generated using the described pipeline is also available on Hugging Face: \noindent\url{https://huggingface.co/datasets/whatphiliptrains/wikipos}
 
 %-------------------------------------------------------------------------
 \section{Code Availability}
