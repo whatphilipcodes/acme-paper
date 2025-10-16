@@ -185,6 +185,11 @@ img {
   border-color: var(--col-mono-700);
 }
 
+img.borderless {
+  border: none;
+  border-radius: 0;
+}
+
 a {
   color: inherit;
   font-family: inherit;
@@ -242,7 +247,8 @@ section:where(.invert) .sections > .active {
 .columns {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--padding);
+  /* gap: var(--padding); */
+  gap: 320px;
 }
 
 .col-vert {
@@ -256,5 +262,26 @@ section:where(.invert) .sections > .active {
   max-height: 100%;
   height: auto;
 }
+
+.image-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, minmax(0, 380px));
+  gap: 16px;
+  /* height: 800px; */
+  width: 100%;
+  margin: auto;
+  place-content: center;
+}
+
+.image-grid img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border: none;
+  border-radius: 0;
+}
+
+
 
 
